@@ -6,12 +6,11 @@ on:
 env:
   TF_CLOUD_ORGANIZATION: "${{ secrets.TF_CLOUD_ORGANIZATION }}"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "learn-terraform-github-actions"
+  TF_WORKSPACE: "${{ secrets.TF_WORKSPACE }}"
   CONFIG_DIRECTORY: "./"
 
 jobs:
   terraform:
-    if: github.repository != 'hashicorp-education/learn-terraform-github-actions'
     name: "Terraform Plan"
     runs-on: ubuntu-latest
     permissions:
