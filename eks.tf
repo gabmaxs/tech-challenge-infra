@@ -12,3 +12,9 @@ resource "aws_eks_cluster" "tech-challenge" {
     "aws_iam_role_policy_attachment.tech-challenge-cluster-AmazonEKSServicePolicy",
   ]
 }
+
+resource "kubernetes_namespace" "tech_challenge" {
+  metadata {
+    name = "tech-challenge"
+  }
+}
