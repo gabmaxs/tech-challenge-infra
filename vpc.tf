@@ -3,12 +3,10 @@ data "aws_availability_zones" "available" {}
 resource "aws_vpc" "tech-challenge" {
   cidr_block = "10.0.0.0/16"
 
-  tags = "${
-    map(
-     "Name", "eks-tech-challenge-node",
-     "kubernetes.io/cluster/${var.cluster-name}", "shared",
-    )
-  }"
+  tags = tomap({
+    "Name" = "eks-tech-challenge-node",
+    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+  })
 }
 
 resource "aws_subnet" "tech-challenge" {
@@ -18,12 +16,10 @@ resource "aws_subnet" "tech-challenge" {
   cidr_block        = "10.0.${count.index}.0/24"
   vpc_id            = "${aws_vpc.tech-challenge.id}"
 
-  tags = "${
-    map(
-     "Name", "eks-tech-challenge-node",
-     "kubernetes.io/cluster/${var.cluster-name}", "shared",
-    )
-  }"
+  tags = tomap({
+    "Name" = "eks-tech-challenge-node",
+    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+  })
 }
 
 resource "aws_internet_gateway" "tech-challenge" {

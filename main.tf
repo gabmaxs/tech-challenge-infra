@@ -16,9 +16,3 @@ terraform {
 provider "aws" {
   region = var.region
 }
-
-resource "kubernetes_namespace" "tech_challenge" {
-  metadata {
-    name = "tech-challenge"
-  }
-}
