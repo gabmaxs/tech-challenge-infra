@@ -1,5 +1,5 @@
 resource "aws_iam_role" "tech-challenge-cluster" {
-  name = "terraform-eks-tech-challenge-cluster"
+  name = "terraform-eks-tech-challenge-cluster-role"
 
   assume_role_policy = <<POLICY
 {
@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "tech-challenge-cluster-AmazonEKSServi
 }
 
 resource "aws_security_group" "tech-challenge-cluster" {
-  name        = "terraform-eks-tech-challenge-cluster"
+  name        = "terraform-eks-tech-challenge-cluster-role"
   description = "Cluster communication with worker nodes"
   vpc_id      = "${aws_vpc.tech-challenge.id}"
 
