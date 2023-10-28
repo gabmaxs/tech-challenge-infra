@@ -10,6 +10,14 @@ terraform {
       version = "2.23.0"
     }
   }
+
+  cloud {
+    organization = "gabmaxs"
+
+    workspaces {
+      name = "tech-challenge"
+    }
+  }
 }
 
 # Configure the AWS Provider

@@ -11,10 +11,7 @@ resource "aws_eks_cluster" "tech-challenge" {
     "aws_iam_role_policy_attachment.tech-challenge-cluster-AmazonEKSClusterPolicy",
     "aws_iam_role_policy_attachment.tech-challenge-cluster-AmazonEKSServicePolicy",
   ]
-}
 
-data "aws_eks_cluster_auth" "tech-challenge" {
-  name = var.cluster-name
 }
 
 provider "kubernetes" {
