@@ -31,11 +31,13 @@ module "eks" {
 
   eks_managed_node_groups = {
     tech-challenge-wg = {
+
       min_size     = 1
       max_size     = 1
       desired_size = 1
 
       instance_types = ["t3.small"]
+      disk_size = 5
 
       tags = {
         ExtraTag = "tech-challenge"

@@ -3,6 +3,11 @@ output "cluster_endpoint" {
   value       = module.eks.cluster_endpoint
 }
 
+# output "cluster_public_endpoint" {
+#   description = "Public endpoint for EKS control plane"
+#   value       = module.eks.cluster_endpoint_public
+# }
+
 output "cluster_security_group_id" {
   description = "Security group ids attached to the cluster control plane"
   value       = module.eks.cluster_security_group_id
