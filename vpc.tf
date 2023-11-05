@@ -1,47 +1,22 @@
-data "aws_availability_zones" "available" {}
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "~> 4.0"
 
-resource "aws_vpc" "tech-challenge" {
-  cidr_block = "10.0.0.0/16"
+  name = local.name
+  cidr = local.vpc_cidr
 
-  tags = tomap({
-    "Name" = "eks-tech-challenge-node",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
-  })
-}
+  azs             = local.azs
+  private_subnets = local.private_subnets
+  public_subnets  = local.public_subnets
+  intra_subnets   = local.intra_subnets
 
-resource "aws_subnet" "tech-challenge" {
-  count = 2
+  enable_nat_gateway = true
 
-  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
-  cidr_block        = "10.0.${count.index}.0/24"
-  vpc_id            = "${aws_vpc.tech-challenge.id}"
-
-  tags = tomap({
-    "Name" = "eks-tech-challenge-node",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
-  })
-}
-
-resource "aws_internet_gateway" "tech-challenge" {
-  vpc_id = "${aws_vpc.tech-challenge.id}"
-
-  tags = {
-    Name = "eks-tech-challenge"
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = 1
   }
-}
 
-resource "aws_route_table" "tech-challenge" {
-  vpc_id = "${aws_vpc.tech-challenge.id}"
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.tech-challenge.id}"
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = 1
   }
-}
-
-resource "aws_route_table_association" "tech-challenge" {
-  count = 2
-
-  subnet_id      = "${aws_subnet.tech-challenge.*.id[count.index]}"
-  route_table_id = "${aws_route_table.tech-challenge.id}"
 }
