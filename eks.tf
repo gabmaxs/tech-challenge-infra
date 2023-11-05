@@ -4,15 +4,13 @@ module "eks" {
 
   cluster_name                   = local.name
   cluster_endpoint_public_access = true
+  cluster_endpoint_private_access = true
 
   cluster_addons = {
     coredns = {
       most_recent = true
     }
     kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
       most_recent = true
     }
   }
@@ -33,12 +31,12 @@ module "eks" {
     tech-challenge-wg = {
 
       min_size     = 1
-      max_size     = 1
-      desired_size = 1
+      max_size     = 5
+      desired_size = 2
 
       instance_types = ["t3.small"]
-      disk_size = 5
 
+      vpc_security_group_ids = [aws_security_group.ssh_cluster.id]
       tags = {
         ExtraTag = "tech-challenge"
       }
